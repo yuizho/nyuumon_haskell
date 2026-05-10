@@ -1,0 +1,30 @@
+# Cabal
+dist/
+dist-*
+cabal.project.local
+cabal.project.local~
+cabal.project.rescore
+.ghc.environment.*
+
+# Stack
+.stack-work/
+
+# Compilation artifacts
+*.o
+*.hi
+*.hie
+*.chi
+*.chs.h
+*.dyn_o
+*.dyn_hi
+
+# Runtime files
+*.hp
+*.prof
+*.tix
+*.aux
+*.eventlog
+
+# Sandbox
+.cabal-sandbox/
+cabal.sandbox.config
