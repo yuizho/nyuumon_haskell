@@ -1,5 +1,7 @@
 module Main where
 
+import Data.List (intercalate)
+
 data Dog = Dog deriving (Show)
 
 data Cat = Cat deriving (Show)
@@ -36,9 +38,20 @@ class (Greeting a) => Laughing a where
 instance Laughing Human where
   laugh _ = "hahaha!"
 
+-- 3.9.3 instance宣言における型宣言
+liftGreet :: (a -> String) -> ([a] -> String)
+liftGreet f = intercalate "\n" . map f
+
+instance (Greeting a) => Greeting [a] where
+  name = liftGreet name
+  hello = liftGreet hello
+  bye = liftGreet bye
+
 main :: IO ()
 main = do
   sayHello (Human "yui")
-  putStrLn $ laugh (Human "who")
+  putStrLn $ laugh (Human "ito")
   sayHello Dog
   sayHello Cat
+
+  sayHello [Human "yui", Human "ito"]
