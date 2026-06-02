@@ -26,6 +26,8 @@ main = do
   case args of
     [dateString] -> do
       let textInput = T.pack dateString
-      print (parseYMD textInput)
+      case parseYMD textInput of
+        Just ymd -> print ymd
+        Nothing -> putStrLn "YYYY/MM/DD形式で入力してください"
     _ -> do
       putStrLn "Usage: cabal run -- \"YYYY/MM/DD\""
