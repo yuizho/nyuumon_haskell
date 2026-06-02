@@ -1,16 +1,23 @@
+{-# LANGUAGE OverloadedStrings #-}
+
 module Main where
 
+import Data.Attoparsec.Text hiding (take)
 import Data.List.Split (splitOn)
+import Data.Text (Text)
+import qualified Data.Text as T
 import System.Environment (getArgs)
 
 data YMD = YMD Int Int Int deriving (Show)
 
-parseYMD :: [Char] -> Maybe YMD
-parseYMD = listToYmd . splitOn "/"
-  where
-    listToYmd :: [String] -> Maybe YMD
-    listToYmd (y : m : d : _) = Just $ YMD (read y) (read m) (read d)
-    listToYmd _ = Nothing
+ymdParser :: Parser YMD
+ymdParser =
+  YMD <$> decimal <* char '/' <*> decimal <* char '/' <*> decimal <* endOfInput
+
+parseYMD :: Text -> Maybe YMD
+parseYMD input = case parseOnly ymdParser input of
+  Right ymd -> Just ymd
+  Left _ -> Nothing
 
 main :: IO ()
 main = do
@@ -18,6 +25,7 @@ main = do
 
   case args of
     [dateString] -> do
-      print (parseYMD dateString)
+      let textInput = T.pack dateString
+      print (parseYMD textInput)
     _ -> do
       putStrLn "Usage: cabal run -- \"YYYY/MM/DD\""

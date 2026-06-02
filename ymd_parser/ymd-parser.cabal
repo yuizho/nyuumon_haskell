@@ -68,7 +68,9 @@ executable ymd-parser
 
     -- Other library packages from which modules are imported.
     build-depends:    base ^>=4.22.0.0,
-                      split
+                      split,
+                      text,
+                      attoparsec
 
     -- Directories containing source files.
     hs-source-dirs:   app
